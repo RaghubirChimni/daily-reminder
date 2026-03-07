@@ -27,8 +27,6 @@ jobs:
       
       - name: Send daily reminder
         env:
-          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-          TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
-          RECIPIENT_PHONE_NUMBERS: ${{ secrets.RECIPIENT_PHONE_NUMBERS }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RECIPIENT_EMAILS: ${{ secrets.RECIPIENT_EMAILS }}
         run: python daily-reminder.py
