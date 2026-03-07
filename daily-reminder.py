@@ -1,13 +1,9 @@
 import os
 from datetime import datetime, date
-from twilio.rest import Client
-from twilio.base.exceptions import TwilioRestException
 import calendar
+import resend
 
-client = Client(
-    os.environ['TWILIO_ACCOUNT_SID'],
-    os.environ['TWILIO_AUTH_TOKEN']
-)
+resend.api_key = os.environ['RESEND_API_KEY']
 
 def get_year_progress():
     today = datetime.now().date()
@@ -24,22 +20,24 @@ def send_reminder():
     today_str = datetime.now().strftime('%A, %B %d, %Y')
     
     message = (
-        f"Today is {today_str}.\n\n"
-        f"{percentage}% of the year has passed.\n\n"
+        f"Today is {today_str}.<br><br>"
+        f"{percentage}% of the year has passed.<br><br>"
         f"Make today count! 💪"
     )
-
-    recipient_numbers = [number.strip() for number in os.environ['RECIPIENT_PHONE_NUMBERS'].split(',')]
-    for recipient_number in recipient_numbers:
+    
+    recipient_emails = [email.strip() for email in os.environ['RECIPIENT_EMAILS'].split(',')]
+    
+    for recipient_email in recipient_emails:
         try:
-            result = client.messages.create(
-                body=message,
-                from_=os.environ['TWILIO_PHONE_NUMBER'],
-                to=recipient_number.strip()
-            )
-            print(f"SMS sent successfully!")
-        except TwilioRestException as e:
-            print(f"Error sending SMS | status: {e.status} | code: {e.code} | code link: https://www.twilio.com/docs/errors/{e.code}")
+            resend.Emails.send({
+                "from" : "noreply@raghubirchimni.com",
+                "to": recipient_email,
+                "subject": f"Daily Reminder: {today_str}",
+                "html": f"<pre>{message}</pre>"
+            })
+            print(f"Email sent successfully")
+        except Exception as e:
+            print(f"Error sending email to {recipient_email}: {e}")
 
 if __name__ == "__main__":
     send_reminder()
