@@ -2,6 +2,7 @@ import os
 from datetime import datetime, date
 import calendar
 import resend
+import time
 
 resend.api_key = os.environ['RESEND_API_KEY']
 
@@ -36,6 +37,9 @@ def send_reminder():
                 "html": f"<pre>{message}</pre>"
             })
             print(f"Email sent successfully")
+            
+            time.sleep(.5) # rate limit: 2 requests/second
+
         except Exception as e:
             print(f"Error sending email to {recipient_email}: {e}")
 
