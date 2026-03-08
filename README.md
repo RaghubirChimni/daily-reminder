@@ -1,9 +1,9 @@
 # Daily Reminder
 
-A daily SMS reminder that tells you what percentage of the year has passed, so you don't let it slip by.
+A daily email reminder that tells you what percentage of the year has passed, so you don't let it slip by.
 
 ## How It Works
-**GitHub Actions** runs a Python script daily at 12 PM UTC (~4-5 AM PST) that sends you a text via **Twilio**.
+**GitHub Actions** runs a Python script daily at 12 PM UTC (~4-5 AM PST) that sends you a text via **Resend**.
 
 ## Example Message 
 ```
