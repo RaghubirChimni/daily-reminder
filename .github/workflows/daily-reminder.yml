@@ -10,7 +10,7 @@ on:
 
 jobs:
   send-reminder:
-    name: Send daily sms reminder
+    name: Send daily email reminder
     runs-on: ubuntu-latest
     
     steps:
